@@ -20,8 +20,8 @@
 #define HEAT_COOL 2
 
 // MANAGEMET
-#define TERN_ON PORTC |= (1 << PORTC2)
-#define TERN_OFF PORTC &= ~(1 << PORTC2)
-#define ENABLED (PORTC & (1 << PORTC2))
+#define TERN_ON DDRC |= (1 << DDRC2)
+#define TERN_OFF DDRC &= ~(1 << DDRC2)
+#define ENABLED (DDRC & (1 << DDRC2))
 
 #endif

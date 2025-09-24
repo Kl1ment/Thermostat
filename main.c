@@ -51,13 +51,13 @@ int main(void)
 		if (temp <= settings.target_temp - settings.deviation) {
 			if (settings.is_heat && !ENABLED) {
 				TERN_ON;
-				} else if (!settings.is_heat && ENABLED) {
+			} else if (!settings.is_heat && ENABLED) {
 				TERN_OFF;
 			}
 		} else if (temp >= settings.target_temp + settings.deviation) {
 			if (settings.is_heat && ENABLED) {
 				TERN_OFF;
-				} else if (!settings.is_heat && !ENABLED) {
+			} else if (!settings.is_heat && !ENABLED) {
 				TERN_ON;
 			}
 		}
