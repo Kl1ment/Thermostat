@@ -8,13 +8,14 @@
 #include "Common/main_common.h"
 #include "Stages/stage_machine.h"
 
+unsigned char should_get_temp = 0;
 
 void port_init() {
-	DDRB = 0x00;
-	PORTB = 0x0F;
+	DDRD = 0x00; // Кнопки
+	PORTD = 0x0F;
 	
-	DDRC |= (1 << DDRC2);
-	PORTC &= ~(1 << PORTC2);
+	DDRD |= (1 << DDRD7); // Управление реле
+	PORTD |= (1 << PORTD7);
 }
 
 void timer_init() {
@@ -27,7 +28,7 @@ void timer_init() {
 }
 
 ISR (TIMER1_COMPA_vect) {
-	temp = get_temperature();
+	should_get_temp = 1;
 }
 
 int main(void)
@@ -39,17 +40,22 @@ int main(void)
 	
 	sei();
 		
-	switch_mode_last = (PINB & SWITCH_MODE);
-	ok_last = (PINB & OK_BUTTON);
-	incremet_last = (PINB & INCREMENT);
-	decrement_last = (PINB & DECREMENT);
+	switch_mode_last = (PIND & SWITCH_MODE);
+	ok_last = (PIND & OK_BUTTON);
+	incremet_last = (PIND & INCREMENT);
+	decrement_last = (PIND & DECREMENT);
 	
     while(1)
     {
+		if (should_get_temp) {
+			temp = get_temperature();
+			should_get_temp = 0;
+		}
+		
 		loop_stage();
-			
+		
 		if (temp <= settings.target_temp - settings.deviation) {
-			if (settings.is_heat && !ENABLED) {
+			if (settings.enabled && settings.is_heat && !ENABLED) {
 				TERN_ON;
 			} else if (!settings.is_heat && ENABLED) {
 				TERN_OFF;
@@ -57,7 +63,7 @@ int main(void)
 		} else if (temp >= settings.target_temp + settings.deviation) {
 			if (settings.is_heat && ENABLED) {
 				TERN_OFF;
-			} else if (!settings.is_heat && !ENABLED) {
+			} else if (settings.enabled && !settings.is_heat && !ENABLED) {
 				TERN_ON;
 			}
 		}

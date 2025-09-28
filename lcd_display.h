@@ -9,11 +9,11 @@
 #endif
 
 #ifndef LCD_PORT
-#define LCD_PORT PORTD
+#define LCD_PORT PORTC
 #endif
 
 #ifndef LCD_DDR
-#define LCD_DDR DDRD
+#define LCD_DDR DDRC
 #endif
 
 #ifndef LCD_CONTROL_PORT
@@ -24,20 +24,25 @@
 #define LCD_CONTROL_DDR DDRC
 #endif
 
-#define RS 0
-#define E 1
+#ifndef RS
+#define RS PORTC0
+#endif
+
+#ifndef E
+#define E PORTC1
+#endif
 
 void lcd_port_init() {
 	#if LCD_INTERFACE == 4
-	LCD_DDR |= 0b11111100;
-	LCD_PORT &= 0b00000011;
+	LCD_DDR |= 0b00111100;
+	LCD_PORT &= 0b11000011;
 	#else
 	LCD_DDR |= 0b11111111;
 	LCD_PORT &= 0b00000000;
 	#endif
 	
-	LCD_CONTROL_DDR |= 0b00000011;
-	LCD_CONTROL_PORT &= 0b11111100;
+	LCD_CONTROL_DDR |= (1 << E) | (1 << RS);
+	LCD_CONTROL_PORT &= ~((1 << E) | (1 << RS));
 }
 
 void push_byte() {
@@ -48,8 +53,8 @@ void push_byte() {
 }
 
 void send_half_byte(unsigned char hb) {
-	hb <<= 4;
-	LCD_PORT &= 0x0F;
+	hb <<= 2;
+	LCD_PORT &= 0b11000011;
 	LCD_PORT |= hb;
 	push_byte();
 }

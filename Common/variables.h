@@ -6,7 +6,8 @@ float temp = 0;
 Settings settings = {
 	target_temp: 25,
 	deviation: 5,
-	is_heat: 1
+	is_heat: 1,
+	enabled: 0,
 };
 
 char switch_mode_last;

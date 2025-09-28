@@ -1,9 +1,9 @@
 #ifndef DS18B20_H_
 #define DS18B20_H_
 
-#define ONE_WIRE_DDR DDRD
-#define ONE_WIRE_PIN PIND
-#define DQ PIND0
+#define ONE_WIRE_DDR DDRB
+#define ONE_WIRE_PIN PINB
+#define DQ PINB0
 
 #include "one_wire.h"
 

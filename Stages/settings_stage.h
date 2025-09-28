@@ -24,22 +24,22 @@ void selector_dec() {
 }
 
 void check_button_settings() {
-	if (PINB_low(SWITCH_MODE, &switch_mode_last)) {
+	if (PIND_low(SWITCH_MODE, &switch_mode_last)) {
 		setup_info_stage();
 		return;
 	}
 	
-	if (PINB_low(OK_BUTTON, &ok_last)) {
+	if (PIND_low(OK_BUTTON, &ok_last)) {
 		setup_edit_settings_stage();
 		return;
 	}
 	
-	if (PINB_low(INCREMENT, &incremet_last)) {
+	if (PIND_low(INCREMENT, &incremet_last)) {
 		selector_inc();
 		return;
 	}
 	
-	if (PINB_low(DECREMENT, &decrement_last)) {
+	if (PIND_low(DECREMENT, &decrement_last)) {
 		selector_dec();
 		return;
 	}

@@ -9,10 +9,10 @@ Vector2 get_position(char pos) {
 	return res;
 }
 
-int PINB_low(char pin, char* last_value) {
-	if ((PINB & pin) != *last_value) {
-		*last_value = (PINB & pin);
-		if (!(PINB & pin)) {
+int PIND_low(char pin, char* last_value) {
+	if ((PIND & pin) != *last_value) {
+		*last_value = (PIND & pin);
+		if (!(PIND & pin)) {
 			return 1;
 		}
 	}

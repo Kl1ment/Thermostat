@@ -5,6 +5,7 @@ typedef struct Settings {
 	char target_temp;
 	unsigned char deviation;
 	unsigned char is_heat;
+	unsigned char enabled;
 } Settings;
 
 typedef struct {
